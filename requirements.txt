@@ -1,0 +1,4 @@
+requests
+requests-cache
+python-dateutil
+unicodecsv
