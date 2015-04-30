@@ -6,7 +6,26 @@ Getting data
 
 The data this project works on comes from [Firebase](http://firebase.io), and
 their export functionality. It assumes initially that you've downloaded the
-whole thing as one `.json` file.
+whole thing as one `.json` file, or that you have access to an S3 bucket where
+they've put an equivalent.
+
+### Downloading the data from S3
+If you need to download the data from S3, you can use the
+`download_s3_bucket.py` script:
+
+```
+python download_s3_bucket.py <bucket-name> <directory-to-download-to>
+```
+
+Note, this will only download .json files in that bucket, and it'll try to
+download them all, though it'll only download those it doesn't see already
+in the directory you give it.
+
+Doing everything in one go
+--------------------------
+If you want to do everything in one go, there's a shell script that should do
+that for you. Simply copy the json file you want to convert into the repo,
+create the virtualenv, and then run `main.sh`.
 
 Splitting the data up
 ---------------------
