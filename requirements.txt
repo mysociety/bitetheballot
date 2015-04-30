@@ -1,4 +1,6 @@
-requests
-requests-cache
-python-dateutil
-unicodecsv
+boto==2.38.0
+progressbar==2.3
+python-dateutil==2.4.2
+six==1.9.0
+unicodecsv==0.12.0
+wsgiref==0.1.2
