@@ -2,7 +2,7 @@
 set -e
 
 # Runs through all of the scripts necessary in order to go from downloaded
-# json file, right through to output CSV file
+# json file to output CSV file
 
 # Assumes that you've put a file called bitetheballot.json into the current
 # directory.
