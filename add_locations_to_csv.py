@@ -25,9 +25,9 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    input_fields = USER_FIELDS
-    input_fields += TOPIC_IDS
-    input_fields += PRIORITY_IDS
+    input_fields = list(USER_FIELDS)
+    input_fields += list(TOPIC_IDS)
+    input_fields += list(PRIORITY_IDS)
 
     location_csv_fields = ['lat', 'lon', 'id', 'constituency_name', 'constituency_mapit_id']
 
