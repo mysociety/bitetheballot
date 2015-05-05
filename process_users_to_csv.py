@@ -32,9 +32,7 @@ if __name__ == '__main__':
             'id': id,
             'age': '',
             'gender': '',
-            'location': '',
-            'observation_index': '',  # TODO - what is this in the data?
-            'overall_party_match': '',  # TODO - where is this in the data?
+            'location': ''
         }
 
         # Some users aren't an object at all
