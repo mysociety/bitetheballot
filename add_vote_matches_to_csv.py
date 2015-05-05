@@ -31,14 +31,14 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    input_fields = USER_FIELDS
-    input_fields += TOPIC_IDS
-    input_fields += PRIORITY_IDS
-    input_fields += LOCATION_FIELDS
+    input_fields = list(USER_FIELDS)
+    input_fields += list(TOPIC_IDS)
+    input_fields += list(PRIORITY_IDS)
+    input_fields += list(LOCATION_FIELDS)
 
     matches_csv_fields = ['user_id'] + list(VOTE_MATCH_FIELDS)
 
-    output_fields = input_fields + VOTE_MATCH_FIELDS
+    output_fields = input_fields + list(VOTE_MATCH_FIELDS)
 
     output_rows = []
 
