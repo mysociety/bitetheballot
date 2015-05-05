@@ -1,6 +1,7 @@
 USER_FIELDS = ('id', 'age', 'gender', 'location')
 TOPIC_IDS = ('crime_s1', 'crime_s2', 'crime_s3', 'econ_s1', 'econ_s2', 'econ_s3', 'edu_s1', 'edu_s2', 'edu_s3', 'env_s1', 'env_s2', 'env_s3', 'foreign_s1', 'foreign_s2', 'foreign_s3', 'heal_s1', 'heal_s2', 'heal_s3', 'imi_s1', 'imi_s2', 'imi_s3', 'ineq_s1', 'ineq_s2', 'ineq_s3', 'jobs_s1', 'jobs_s2', 'jobs_s3', 'living_s1', 'living_s2', 'living_s3', 'reform_s1', 'reform_s2', 'reform_s3', 'tax_s1', 'tax_s2', 'tax_s3', 'welfare_s1', 'welfare_s2', 'welfare_s3')
 PRIORITY_IDS = ('priority_0', 'priority_1', 'priority_2', 'priority_3', 'priority_4', 'priority_5', 'priority_6', 'priority_7', 'priority_8', 'priority_9', 'priority_10', 'priority_11', 'priority_12', 'priority_13')
+LOCATION_FIELDS = ('lat', 'lon', 'constituency_name', 'constituency_mapit_id')
 # Calculated from the topics section of the bitetheballot.json, merging together
 # older files with newer ones because some positions have been changed, and
 # some statements added and deleted, but we need the whole lot here to match

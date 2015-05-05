@@ -4,7 +4,7 @@ import sys
 import json
 import copy
 
-from constants import USER_FIELDS, TOPIC_IDS, PRIORITY_IDS
+from constants import USER_FIELDS, TOPIC_IDS, PRIORITY_IDS, LOCATION_FIELDS
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Adds locations to CSV")
@@ -29,10 +29,9 @@ if __name__ == '__main__':
     input_fields += TOPIC_IDS
     input_fields += PRIORITY_IDS
 
-    location_fields = ['lat', 'lon', 'constituency_name', 'constituency_mapit_id']
     location_csv_fields = ['lat', 'lon', 'id', 'constituency_name', 'constituency_mapit_id']
 
-    output_fields = input_fields + location_fields
+    output_fields = input_fields + list(LOCATION_FIELDS)
 
     output_rows = []
 
