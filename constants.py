@@ -404,3 +404,10 @@ PARTY_POSITIONS = {
         u'ukip': 0,
         },
     }
+# There are actually 44 topics, but this number is used in calculating the
+# percentage scores for a given user, and represents the number of statements
+# that were available to them when they answered the questions. In some topics
+# newer statements have been added more recently, but older ones were removed
+# to make room for them.
+NUM_STATEMENTS = 39
+VOTE_MATCH_FIELDS = ('user_id', 'living_conservative', 'living_labour', 'living_lib', 'living_ukip', 'living_green', 'living_snp', 'living_plcym', 'econ_conservative', 'econ_labour', 'econ_lib', 'econ_ukip', 'econ_green', 'econ_snp', 'econ_plcym', 'jobs_conservative', 'jobs_labour', 'jobs_lib', 'jobs_ukip', 'jobs_green', 'jobs_snp', 'jobs_plcym', 'reform_conservative', 'reform_labour', 'reform_lib', 'reform_ukip', 'reform_green', 'reform_snp', 'reform_plcym', 'imi_conservative', 'imi_labour', 'imi_lib', 'imi_ukip', 'imi_green', 'imi_snp', 'imi_plcym', 'heal_conservative', 'heal_labour', 'heal_lib', 'heal_ukip', 'heal_green', 'heal_snp', 'heal_plcym', 'welfare_conservative', 'welfare_labour', 'welfare_lib', 'welfare_ukip', 'welfare_green', 'welfare_snp', 'welfare_plcym', 'tax_conservative', 'tax_labour', 'tax_lib', 'tax_ukip', 'tax_green', 'tax_snp', 'tax_plcym', 'foreign_conservative', 'foreign_labour', 'foreign_lib', 'foreign_ukip', 'foreign_green', 'foreign_snp', 'foreign_plcym', 'env_conservative', 'env_labour', 'env_lib', 'env_ukip', 'env_green', 'env_snp', 'env_plcym', 'edu_conservative', 'edu_labour', 'edu_lib', 'edu_ukip', 'edu_green', 'edu_snp', 'edu_plcym', 'ineq_conservative', 'ineq_labour', 'ineq_lib', 'ineq_ukip', 'ineq_green', 'ineq_snp', 'ineq_plcym', 'crime_conservative', 'crime_labour', 'crime_lib', 'crime_ukip', 'crime_green', 'crime_snp', 'crime_plcym', 'conservative', 'labour', 'lib', 'ukip', 'green', 'snp', 'plcym')
