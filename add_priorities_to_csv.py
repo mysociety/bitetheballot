@@ -25,10 +25,10 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    input_fields = USER_FIELDS
-    input_fields += TOPIC_IDS
+    input_fields = list(USER_FIELDS)
+    input_fields += list(TOPIC_IDS)
 
-    output_fields = input_fields + PRIORITY_IDS
+    output_fields = input_fields + list(PRIORITY_IDS)
 
     priorities_json = json.load(args.input_json)
 
