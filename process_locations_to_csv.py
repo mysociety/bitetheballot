@@ -20,11 +20,19 @@ if __name__ == '__main__':
 
     rows = []
     for id, location in locations.items():
-        row = {
-            'id': id,
-            'lat': location['l'][0],
-            'lon': location['l'][1]
-        }
+        # Sigh, some are numeric indexed, some are string
+        if 0 in location['l']:
+            row = {
+                'id': id,
+                'lat': location['l'][0],
+                'lon': location['l'][1]
+            }
+        else:
+            row = {
+                'id': id,
+                'lat': location['l']["0"],
+                'lon': location['l']["1"]
+            }
         rows.append(row)
 
     with open(args.output_csv, 'wb') as f:
