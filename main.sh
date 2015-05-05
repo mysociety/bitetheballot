@@ -39,8 +39,14 @@ then
     echo "Adding locations to user CSV"
     python add_locations_to_csv.py /tmp/bitetheballot/bitetheballot-users-with-priorities.csv /tmp/bitetheballot/bitetheballot-locations-with-constituencies.csv /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations.csv
 
+    echo "Calculating vote matches"
+    python calculate_vote_match.py /tmp/bitetheballot/bitetheballot-users.json /tmp/bitetheballot/bitetheballot-vote-matches.csv
+
+    echo "Adding vote matches to user CSV"
+    python add_vote_matches_to_csv.py /tmp/bitetheballot/bitetheballot-users.csv /tmp/bitetheballot/bitetheballot-vote-matches.csv /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations-and-vote-matches.csv
+
     echo "Cleaning up"
-    cp /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations.csv bitetheballot.csv
+    cp /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations-and-vote-matches.csv bitetheballot.csv
     rm -rf /tmp/bitetheballot
 else
     echo "bitetheballot.json not found"

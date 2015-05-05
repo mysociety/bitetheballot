@@ -41,6 +41,8 @@ if __name__ == '__main__':
         priorities = priorities_json.get(row['id'])
         if priorities and priorities.get('topics'):
             for topic in priorities['topics']:
+                if isinstance(topic, basestring):
+                    topic = priorities['topics'][topic]
                 topic_priority_id = 'priority_{0}'.format(topic['position'])
                 row_copy[topic_priority_id] = topic['slug']
         output_rows.append(row_copy)

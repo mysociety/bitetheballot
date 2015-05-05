@@ -215,7 +215,11 @@ if __name__ == '__main__':
             'user_id': user_id,
         }
         # Work out their nation
-        user_nation = user['nation']['slug']
+        if user.get['nation']:
+            user_nation = user['nation']['slug']
+        else:
+            # Assume england
+            user_nation = 'eng'
         # Work out which parties they should be compared against
         user_parties = PARTIES_BY_COUNTRY[user_nation]
         # Loop over every decision they made and work out how they match
