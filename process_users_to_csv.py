@@ -65,8 +65,8 @@ if __name__ == '__main__':
 
     print "\nSaving"
     with open(args.output_csv, 'wb') as f:
-        fields = USER_FIELDS
-        fields += TOPIC_IDS
+        fields = list(USER_FIELDS)
+        fields += list(TOPIC_IDS)
         writer = unicodecsv.DictWriter(f, fields)
         writer.writeheader()
         writer.writerows(rows)
