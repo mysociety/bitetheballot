@@ -17,9 +17,9 @@ then
 
     # Split up the file
     echo "Spliting up JSON file"
-    cat bitetheballot.json | jq .users > /tmp/bitetheballotbitetheballot-users.json
-    cat bitetheballot.json | jq .locations > /tmp/bitetheballotbitetheballot-locations.json
-    cat bitetheballot.json | jq .priorities > /tmp/bitetheballotbitetheballot-priorities.json
+    cat bitetheballot.json | jq .users > /tmp/bitetheballot/bitetheballot-users.json
+    cat bitetheballot.json | jq .locations > /tmp/bitetheballot/bitetheballot-locations.json
+    cat bitetheballot.json | jq .priorities > /tmp/bitetheballot/bitetheballot-priorities.json
 
     # Start the pythons
     source ../virtualenv-bitetheballot/bin/activate
