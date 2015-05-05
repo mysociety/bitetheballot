@@ -5,6 +5,7 @@ import datetime
 import sys
 from dateutil.relativedelta import relativedelta
 
+import utils
 from constants import TOPIC_IDS, USER_FIELDS
 
 if __name__ == '__main__':
@@ -54,15 +55,10 @@ if __name__ == '__main__':
             row[topic_id] = ""
         if user.get('decisions') is not None:
             for decision in user['decisions']:
-                # Some of the decisions are (annoyingly) a different structure
-                # to the rest
-                if isinstance(decision, basestring):
-                    decision = user['decisions'][decision]
-                # Some decisions are null objects so skip those
+                decision = utils.clean_decision(decision, user['decisions'])
                 if decision is None:
                     continue
                 topic_id = "{0}_{1}".format(decision['topic'], decision['statement'])
-                # TODO - is position the right thing here? What about weight?
                 row[topic_id] = decision['position']
         rows.append(row)
         sys.stdout.write('.')
