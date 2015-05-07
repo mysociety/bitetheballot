@@ -3,6 +3,7 @@ import argparse
 import sys
 import json
 import copy
+from progressbar import ProgressBar
 
 from constants import (
     USER_FIELDS,
@@ -47,8 +48,16 @@ if __name__ == '__main__':
 
     print "There are {0} users with matches".format(len(matches_by_user_id))
 
-    print "Processing"
     reader = unicodecsv.DictReader(args.input_csv, input_fields)
+
+    # Work out how many rows we'll loop over so we can show a progress bar
+    row_count = sum(1 for row in reader)
+    # reset the input file because we just iterated over it all
+    args.input_csv.seek(0)
+    # set up the progress bar
+    count = 0
+    progress_bar = ProgressBar(row_count)
+    progress_bar.start()
     for row in reader:
         row_copy = copy.deepcopy(row)
         match = matches_by_user_id.get(row['id'])
@@ -58,7 +67,9 @@ if __name__ == '__main__':
             for column in VOTE_MATCH_FIELDS:
                 row_copy[column] = match[column]
         output_rows.append(row_copy)
-        sys.stdout.write(".")
+        count += 1
+        progress_bar.update(count)
+    progress_bar.finish()
 
     print "\nSaving"
     with open(args.output_csv, 'wb') as f:
