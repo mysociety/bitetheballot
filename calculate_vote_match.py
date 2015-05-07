@@ -124,29 +124,86 @@ def user_total_weighted_party_matches_by_topic(weighted_party_matches_by_topic):
     return total_party_matches
 
 
-def user_percentage_party_matches_by_topic(total_party_matches_by_topic):
+def user_percentage_party_matches_by_topic(total_party_matches_by_topic, decisions):
     percentage_party_matches = defaultdict(dict)
     for topic, parties in total_party_matches_by_topic.iteritems():
         log.debug("totals for topic: {0} are {1}".format(topic, parties))
-        total_party_matches_sum = sum(parties.itervalues())
-        log.debug("Sum of all party matches: {0}".format(total_party_matches_sum))
+
+        # Work out what the total possible match for each party could have
+        # been - e.g. if you agree on everything.
+        total_possible_match_for_topic = user_total_match_score_for_topic(topic, decisions)
+
+        log.debug("Total possible match for topic: {0}".format(total_possible_match_for_topic))
+
         # Then we work out what percentage each party is of that total
         for party, total_party_match in parties.iteritems():
             log.debug("Total party match for {0} is {1}".format(party, total_party_match))
-            percentage_party_match = (float(total_party_match) / float(total_party_matches_sum)) * 100
+            if total_possible_match_for_topic > 0:
+                percentage_party_match = (float(total_party_match) / float(total_possible_match_for_topic)) * 100
+            else:
+                percentage_party_match = 0
+
             log.debug("Percentage party match for {0} is {1}".format(party, percentage_party_match))
+
             percentage_party_matches[topic][party] = percentage_party_match
+
     return percentage_party_matches
 
 
-def user_percentage_party_matches(user_parties, num_statements, total_party_matches_by_topic):
+def user_total_match_score(decisions):
+    """
+    Calculate the total possible score, if we match all of a user's decisions
+    """
+    score = 0
+    for decision in decisions:
+        decision = utils.clean_decision(decision, decisions)
+        if decision is None:
+            continue
+
+        user_position = user_position_from_decision(decision)
+        if user_position is None:
+            continue
+
+        user_weight = 1
+        if decision.get('weight'):
+            user_weight = int(decision['weight'])  # Either 1 or 2
+
+        score += user_weight
+    return score
+
+
+def user_total_match_score_for_topic(topic, decisions):
+    """
+    Calculate the total possible score for a single topic, if we match all of
+    a user's decisions.
+    """
+    score = 0
+    for decision in decisions:
+        decision = utils.clean_decision(decision, decisions)
+        if decision is None:
+            continue
+
+        user_position = user_position_from_decision(decision)
+        if user_position is None:
+            continue
+
+        topic_id = decision['topic']
+        if topic_id == topic:
+            user_weight = 1
+            if decision.get('weight'):
+                user_weight = int(decision['weight'])  # Either 1 or 2
+            score += user_weight
+    return score
+
+
+def user_percentage_party_matches(user_parties, total_possible_match, total_party_matches_by_topic):
     """
     Calculate the percentage by which the user matches the party overall, from
     all of their individual answers.
     """
     percentage_party_matches = {}
     log.debug(total_party_matches_by_topic)
-    log.debug("total topics are: {0}".format(num_statements))
+    log.debug("total possible match score is: {0}".format(total_possible_match))
     for party in user_parties:
         log.debug("Calcuating percentage match for {0}".format(party))
         # Calculate the total match for this party over all the topics
@@ -156,7 +213,10 @@ def user_percentage_party_matches(user_parties, num_statements, total_party_matc
             log.debug("Total sum for this party is: {0}".format(parties[party]))
             sum_total_matches += parties[party]
         log.debug("Sum of all matches is {0}".format(sum_total_matches))
-        percentage_party_matches[party] = (float(sum_total_matches) / float(num_statements)) * 100
+        if total_possible_match > 0:
+            percentage_party_matches[party] = (float(sum_total_matches) / float(total_possible_match)) * 100
+        else:
+            percentage_party_matches[party] = 0
         log.debug("Percentage match is: {0}".format(percentage_party_matches[party]))
     return percentage_party_matches
 
@@ -210,10 +270,18 @@ if __name__ == '__main__':
     users = json.load(args.users_input_file)
     # Loop over every user
     log.info("Processing {0} users".format(len(users)))
-    progress_bar = ProgressBar(len(users))
+    progress_bar = ProgressBar(len(users.items()))
     progress_bar.start()
+    count = 0
 
     for user_id, user in users.items():
+        count += 1
+        progress_bar.update(count)
+
+        # Some user values are not real values, skip those
+        if user == "false":
+            continue
+
         # Instantiate the row
         row = {
             'user_id': user_id,
@@ -239,12 +307,19 @@ if __name__ == '__main__':
             total_party_matches_by_topic = user_total_weighted_party_matches_by_topic(weighted_party_matches_by_topic)
             # Then work out percentages by topic
             log.debug("Total party matches are: {0}".format(total_party_matches_by_topic))
-            percentage_party_matches_by_topic = user_percentage_party_matches_by_topic(total_party_matches_by_topic)
+            percentage_party_matches_by_topic = user_percentage_party_matches_by_topic(
+                total_party_matches_by_topic,
+                user['decisions']
+            )
             log.debug("Percentage party matches are: {0}".format(percentage_party_matches_by_topic))
             # Then calculate the overall
+            # We need to know what the total possible match score a user could
+            # have is. e.g. if they answered 10 questions, each with a weight
+            # of 2, then their overall match score is out of 20.
+            total_possible_match_score = user_total_match_score(user['decisions'])
             overall_party_matches = user_percentage_party_matches(
                 user_parties,
-                NUM_STATEMENTS,
+                total_possible_match_score,
                 total_party_matches_by_topic
             )
             log.debug("Overall party matches are: {0}".format(overall_party_matches))
@@ -254,11 +329,11 @@ if __name__ == '__main__':
             row.update(flattened_percentage_party_matches_by_topic)
             row.update(overall_party_matches)
             rows.append(row)
-            progress_bar.update(1)
 
     progress_bar.finish()
 
     # Write everything out to the CSV file - this will add a lot of columns!
+    log.info("Saving")
     output_fields = ['user_id'] + list(VOTE_MATCH_FIELDS)
     with open(args.output_file, 'wb') as f:
         writer = unicodecsv.DictWriter(f, output_fields)
