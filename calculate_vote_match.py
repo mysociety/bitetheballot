@@ -287,7 +287,7 @@ if __name__ == '__main__':
             'user_id': user_id,
         }
         # Work out their nation
-        if user.get['nation']:
+        if user.get('nation'):
             user_nation = user['nation']['slug']
         else:
             # Assume england
