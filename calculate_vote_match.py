@@ -11,6 +11,8 @@ from constants import PARTY_POSITIONS, NUM_STATEMENTS, VOTE_MATCH_FIELDS
 
 
 log = logging.getLogger(__name__)
+handler = logging.StreamHandler()
+log.addHandler(handler)
 
 
 def statements_by_topic(party_positions):
