@@ -89,7 +89,9 @@ def user_weighted_party_matches_by_party_topic_statement(decisions, user_parties
         if user_position is None:
             continue
 
-        user_weight = int(decision['weight'])  # Either 1 or 2
+        user_weight = 1
+        if decision.get('weight'):
+            user_weight = int(decision['weight'])  # Either 1 or 2
 
         log.debug(combined_id)
         log.debug("user position is: {0}".format(user_position))
