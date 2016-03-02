@@ -16,7 +16,7 @@ if not os.path.exists(REQUESTS_CACHE_PATH):
 requests_cache.install_cache(os.path.join(REQUESTS_CACHE_PATH, "cache"))
 
 AREA_TYPES = ("WMC",)
-MAPIT_URL = "http://localhost:8000/point/4326/{{lon}},{{lat}}?types={types}".format(types=",".join(AREA_TYPES))
+MAPIT_URL = "http://mapit.mysociety.org/point/4326/{{lon}},{{lat}}?types={types}".format(types=",".join(AREA_TYPES))
 # How long to sleep between requests to MapIt, in seconds. Set to 0 to disable rate limiting.
 SLEEP_INTERVAL = 0
 
