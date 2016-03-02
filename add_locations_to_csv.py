@@ -29,9 +29,13 @@ if __name__ == '__main__':
     input_fields += list(TOPIC_IDS)
     input_fields += list(PRIORITY_IDS)
 
+    print input_fields
+
     location_csv_fields = ['lat', 'lon', 'id', 'constituency_name', 'constituency_mapit_id']
 
     output_fields = input_fields + list(LOCATION_FIELDS)
+
+    print output_fields
 
     output_rows = []
 
@@ -50,10 +54,13 @@ if __name__ == '__main__':
         row_copy['constituency_name'] = ''
         row_copy['constituency_mapit_id'] = ''
         if location:
+            print "found location"
             row_copy['lat'] = location['lat']
             row_copy['lon'] = location['lon']
             row_copy['constituency_name'] = location['constituency_name']
             row_copy['constituency_mapit_id'] = location['constituency_mapit_id']
+        else:
+            print "couldn't find location for {}".format(row['id'])
         output_rows.append(row_copy)
         sys.stdout.write(".")
 
