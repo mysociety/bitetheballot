@@ -43,7 +43,7 @@ then
     python calculate_vote_match.py /tmp/bitetheballot/bitetheballot-users.json /tmp/bitetheballot/bitetheballot-vote-matches.csv
 
     echo "Adding vote matches to user CSV"
-    python add_vote_matches_to_csv.py /tmp/bitetheballot/bitetheballot-users.csv /tmp/bitetheballot/bitetheballot-vote-matches.csv /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations-and-vote-matches.csv
+    python add_vote_matches_to_csv.py /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations.csv /tmp/bitetheballot/bitetheballot-vote-matches.csv /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations-and-vote-matches.csv
 
     echo "Cleaning up"
     cp /tmp/bitetheballot/bitetheballot-users-with-priorities-and-locations-and-vote-matches.csv bitetheballot.csv
