@@ -21,6 +21,13 @@ Note, this will only download .json files in that bucket, and it'll try to
 download them all, though it'll only download those it doesn't see already
 in the directory you give it.
 
+Secrets
+-------
+
+This script requires the AWS access key and secret key to be set in a file
+called secret.py, this isn't checked into git to stop this being leaked.
+Copy secret.py-example to secret.py and then fill in the details.
+
 Doing everything in one go
 --------------------------
 If you want to do everything in one go, there's a shell script that should do
